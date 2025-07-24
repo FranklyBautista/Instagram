@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Tangerine:wght@400;700&display=swap');
+
+
+
+:root{
+    --color-fondo-oscuro:#000000;
+    --text-color:#f5f5f5;
+    --detalles:#212121
+}
+
+body{
+    margin: 0;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+    background-color: var(--color-fondo-oscuro);
+    color: var(--text-color);
+}
+
+div,body,ul,li{
+    box-sizing: border-box;
+}
+
+h1,h2,h3,h4{
+    text-wrap: balance;
+}
+
+p{
+    text-wrap: pretty;
+}
+main{
+    min-width: 700px;
+}
+
+aside, main{
+    padding: 10px 20px;
+    flex-basis: 0;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.forYou{
+    color: #aaa;
+}
+
+.divider{
+    margin-top: 1em;
+    display:flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.main-wrapper{
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    /* max-width: 1360px; */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.main-wrapper aside{
+    flex-grow: 1;
+}
+
+.navbar2{
+    flex-grow: 1;
+}
+
+.secondary-navbar{
+    min-width: 8rem;
+    max-width: 13rem;
+    text-align: start;
+    border-right: 1.2px solid #212121;
+    justify-content: center;
+}
+
+.segundoUl{
+    margin-top: 13em;
+}
+
+.secondary-navbar ul{
+    padding: 0;
+}
+.secondary-navbar li{
+    list-style: none;
+}
+
+.secondary-navbar a{
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+aside :last-child{
+    min-width: 10rem;
+}
+
+.segundo-aside{
+    padding: 5em;
+    padding-top: 2em;
+    padding-right: 2em;
+    
+}
+
+.titulito{
+    margin-left: 10px;
+    font-family: "Tangerine", cursive;
+    font-size: 2.5em;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; /* ajusta según tu layout */
+  padding: 8px;
+  background: #000; /* fondo oscuro */
+  color: white;
+  font-family: sans-serif;
+}
+
+img{
+    background-color: white;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.profile-info {
+  flex-grow: 1;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.name {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.change-button {
+  font-size: 13px;
+  color: #0095f6; /* azul de Instagram */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.change-button:hover {
+  text-decoration: underline;
+}
+
+
+.main-section{
+    padding-top: 0em;
+    padding-left: 10.2em;
+    padding-right: 1.2em;
+    
+}
+
+.carrusel-historias{
+    min-height: 100px;
+}
+
+@media screen and (max-width: 800px){
+    aside:last-child{
+        display: none;
+    }
+}
+@media screen and (max-width: 400px){
+    .main-wrapper{
+        flex-direction: column;
+    }
+}
