@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Tangerine:wght@400;700&display=swap');
+:root{
+    --color-fondo-oscuro:#000000;
+    --text-color:#788f91;
+    --detalles:#212121;
+    --inputs-color: #121212;
+    --outline-color:rgba(255, 255, 255, 0.443);
+    --important: rgb(255,255,255);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    background-color: var(--color-fondo-oscuro);
+}
+
+*{
+    box-sizing: border-box;
+}
+
+h1{
+    font-family: "Tangerine", cursive;
+    font-size: 4rem;
+    color: white;
+    margin-bottom: 1px;
+}
+
+.registro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.registro-wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: .2px solid var(--outline-color);
+    max-width: 22rem;
+    margin-top: 10px;
+}
+
+.form-registro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+form{
+    margin-top: 20px;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+form input{
+    background-color: var(--inputs-color);
+    outline: var(--outline-color);
+    border: 0;
+    outline: 0.2px solid rgba(255, 255, 255, 0.443);
+    padding: 9px 0 7px 8px;
+    width: 75%;
+}
+
+
+
+
+
+.divider{
+    width: 75%;
+    height: 1px;
+    border: 0.6px solid var(--detalles);
+}
+
+.def {
+    color: rgb(168, 168, 168);
+    font-size: 1rem;
+    line-height: 16px;
+    padding: 20px;
+    text-wrap: pretty;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.fb-login{
+    padding: 8px 10px;
+    width: 75%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #4a5df9;
+    color: white;
+    border: 0;
+}
+
+.info{
+    color: rgb(168, 168, 168);
+    font-size: 12px;
+    font-family: sans-serif;
+    line-height: 16px;
+    width: 75%;
+    text-wrap: pretty;
+}
+
+.btn-registrar{
+     padding: 8px 10px;
+    width: 75%;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    background-color: #4a5df9;
+    color: white;
+    border: 0;
+    margin-top: 5px;
+}
+
+.back{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: .2px solid var(--outline-color);
+    max-width: 22rem;
+    margin-top: 10px;
+    width: 22rem;
+    padding: 20px;
+}
+
+.account{
+    color: var(--important);
+    font-family: sans-serif;
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+
+a{
+    margin: 0;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #4a5df9;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin-bottom: 10px;
+}
