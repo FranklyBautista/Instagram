@@ -69,6 +69,7 @@ form input{
     outline: 0.2px solid rgba(255, 255, 255, 0.443);
     padding: 9px 0 7px 8px;
     width: 75%;
+    color: white;
 }
 
 
@@ -150,3 +151,4 @@ a{
     letter-spacing: 0;
     margin-bottom: 10px;
 }
+

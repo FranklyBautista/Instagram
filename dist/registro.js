@@ -10,9 +10,6 @@ button.addEventListener("click", async () => {
     const password = passwordInput.value;
     const nombreCompleto = nombreCompletoInput.value; // Si lo vas a usar o guardar
     const username = usernameInput.value; // ¡La clave es la minúscula aquí!
-    console.log(email);
-    console.log(password);
-    console.log(username);
     try {
         const res = await fetch("http://localhost:3000/register", {
             method: "POST",

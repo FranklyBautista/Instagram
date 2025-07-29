@@ -25,3 +25,48 @@ app.post("/register", async (req, res) => {
 app.listen(3000, () => {
   console.log("Servidor corriendo en http://localhost:3000");
 });
+
+app.post("/login", async (req, res) =>{
+  const {email,password} = req.body;
+
+  try{
+    const user = await prisma.user.findUnique({where: {email}})
+
+    if (!user || user.password !== password) {
+      return res.status(401).json({ error: "Credenciales incorrectas" });
+    }
+
+    res.status(200).json({ message: "Login exitoso", user });
+  }catch(error){
+    res.status(500).json({error:"Error al iniciar sesion"})
+  }
+})
+
+
+app.get("/profile/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { username },
+      select: {
+        username:true,
+        bio: true,
+        avatarUrl: true,
+        followers:true,
+        following:true,
+        posts:true
+
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error al obtener perfil:", error);
+    res.status(500).json({ error: "Error del servidor" });
+  }
+});

@@ -119,6 +119,7 @@ form input{
     outline: 0.1px solid rgba(255, 255, 255, 0.443);
     margin: 3px;
     border: 0;
+    color: white;
 }
 
 form button{
