@@ -15,10 +15,23 @@ model User {
   email     String   @unique
   password  String
   username  String   @unique
-  bio       String? //descripcion del usuario 
+  bio       String?
   avatarUrl String?
   createdAt DateTime @default(now())
-  followers Int      @default(0)
-  following Int      @default(0)
   posts     Int      @default(0)
+
+  // Relaciones
+  followers Follower[] @relation("Followers")
+  following Follower[] @relation("Following")
+}
+
+model Follower {
+  id          Int @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+
+  follower  User @relation("Following", fields: [followerId], references: [id])
+  following User @relation("Followers", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
 }

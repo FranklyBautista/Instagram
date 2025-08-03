@@ -21,9 +21,10 @@ btn.addEventListener("click", async (e) => {
 
     if (res.ok) {
       console.log("Login exitoso:", data);
-      const { username } = data; 
-      localStorage.setItem("username", username);
-      window.location.href = `profile.html?user=${username}`;
+     const { username, id } = data;
+  localStorage.setItem("username", username);
+  localStorage.setItem("userId", id.toString());
+  window.location.href = `profile.html?user=${username}`;
     } else {
       console.error("Error en login:", data.error);
       alert("Credenciales incorrectas");

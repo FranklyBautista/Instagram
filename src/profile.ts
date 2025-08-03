@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("username")!.textContent = data.username;
       document.querySelector(".bio")!.textContent = data.bio || "Sin bio";
       document.querySelector(".profile-picture")!.setAttribute("src", data.avatarUrl || "../assets/avatarDefault.jpg");
+
       document.querySelector(".posts")!.textContent = `${data.posts} publicaciones`;
       document.querySelector(".followers")!.textContent = `${data.followers} seguidores`;
       document.querySelector(".following")!.textContent = `${data.following} seguidos`;

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Tangerine:wght@400;700&display=swap');
+
+:root {
+    --color-fondo-oscuro: #000000;
+    --text-color: #b0b0b0;
+    --detalles: #1c1c1c;
+    --inputs-color: #121212;
+    --outline-color: rgba(255, 255, 255, 0.3);
+    --important: #ffffff;
+    --accent-color: #1da1f2; /* Azul tipo Twitter */
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-fondo-oscuro);
+    color: var(--text-color);
+}
+
+main {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+}
+
+.title-container h1 {
+    font-size: 2rem;
+    color: var(--important);
+    margin-bottom: 0.5rem;
+}
+
+#search-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.8rem 1rem;
+    border: none;
+    outline: 1px solid var(--outline-color);
+    background-color: var(--inputs-color);
+    color: var(--important);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: outline-color 0.2s;
+}
+
+#search-input:focus {
+    outline-color: var(--accent-color);
+}
+
+#results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#results li {
+    background-color: var(--detalles);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--important);
+    transition: background-color 0.3s;
+}
+
+#results li:hover {
+    background-color: #2a2a2a;
+}
+
+#results button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+#results button:hover {
+    background-color: #1483d5;
+}

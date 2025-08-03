@@ -1,7 +1,8 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import cors from "cors";
 import path from "path";
+import followRoutes from "./follow"
 
 const prisma = new PrismaClient();
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.static(path.join(__dirname, "../html")));
 app.use("/dist", express.static(path.join(__dirname, "../dist")));
 app.use("/styles", express.static(path.join(__dirname, "../styles")));
 app.use("/assets", express.static(path.join(__dirname, "../assets")));
+app.use("/follow", followRoutes)
 
 // POST /register
 app.post("/register", async (req, res) => {
@@ -45,7 +47,9 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Credenciales incorrectas" });
     }
 
-    res.status(200).json({ username: user.username });
+    console.log("Usuario autenticado:", user);
+    res.status(200).json({ username: user.username, id: user.id });
+
   } catch (error) {
     console.error("Error al hacer login:", error);
     res.status(500).json({ error: "Error del servidor" });
@@ -60,25 +64,61 @@ app.get("/profile/:username", async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { username },
       select: {
+        id: true,
         username: true,
         bio: true,
         avatarUrl: true,
-        followers: true,
-        following: true,
         posts: true,
       },
     });
 
-    if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
+    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
 
-    res.json(user);
+    // Contar seguidores y seguidos
+    const [followersCount, followingCount] = await Promise.all([
+      prisma.follower.count({ where: { followingId: user.id } }),
+      prisma.follower.count({ where: { followerId: user.id } }),
+    ]);
+
+    res.json({
+      ...user,
+      followers: followersCount,
+      following: followingCount,
+    });
   } catch (error) {
     console.error("Error al obtener perfil:", error);
     res.status(500).json({ error: "Error del servidor" });
   }
 });
+
+
+app.get("/users/search", async (req, res) => {
+  const q = req.query.q as string;
+
+  if (!q || q.trim() === "") return res.json([]);
+
+  try {
+    const users = await prisma.user.findMany({
+      where: {
+        username: {
+          contains: q,
+        },
+      },
+      select: {
+        id: true,
+        username: true,
+      },
+      take: 10,
+    });
+
+    res.json(users);
+  } catch (error) {
+    console.error("Error en búsqueda:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
+
 
 // Solo una vez app.listen
 app.listen(port, () => {

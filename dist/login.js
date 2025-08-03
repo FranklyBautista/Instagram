@@ -25,8 +25,9 @@ btn.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function*
         const data = yield res.json(); // ✅ Solo una vez
         if (res.ok) {
             console.log("Login exitoso:", data);
-            const { username } = data;
+            const { username, id } = data;
             localStorage.setItem("username", username);
+            localStorage.setItem("userId", id.toString());
             window.location.href = `profile.html?user=${username}`;
         }
         else {

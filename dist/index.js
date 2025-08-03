@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const client_1 = require("@prisma/client");
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
+const follow_1 = __importDefault(require("./follow"));
 const prisma = new client_1.PrismaClient();
 const app = (0, express_1.default)();
 const port = 3000;
@@ -27,6 +28,7 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "../html")));
 app.use("/dist", express_1.default.static(path_1.default.join(__dirname, "../dist")));
 app.use("/styles", express_1.default.static(path_1.default.join(__dirname, "../styles")));
 app.use("/assets", express_1.default.static(path_1.default.join(__dirname, "../assets")));
+app.use("/follow", follow_1.default);
 // POST /register
 app.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, username } = req.body;
@@ -51,7 +53,8 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (!user || user.password !== password) {
             return res.status(401).json({ error: "Credenciales incorrectas" });
         }
-        res.status(200).json({ username: user.username });
+        console.log("Usuario autenticado:", user);
+        res.status(200).json({ username: user.username, id: user.id });
     }
     catch (error) {
         console.error("Error al hacer login:", error);
@@ -65,22 +68,49 @@ app.get("/profile/:username", (req, res) => __awaiter(void 0, void 0, void 0, fu
         const user = yield prisma.user.findUnique({
             where: { username },
             select: {
+                id: true,
                 username: true,
                 bio: true,
                 avatarUrl: true,
-                followers: true,
-                following: true,
                 posts: true,
             },
         });
-        if (!user) {
+        if (!user)
             return res.status(404).json({ error: "Usuario no encontrado" });
-        }
-        res.json(user);
+        // Contar seguidores y seguidos
+        const [followersCount, followingCount] = yield Promise.all([
+            prisma.follower.count({ where: { followingId: user.id } }),
+            prisma.follower.count({ where: { followerId: user.id } }),
+        ]);
+        res.json(Object.assign(Object.assign({}, user), { followers: followersCount, following: followingCount }));
     }
     catch (error) {
         console.error("Error al obtener perfil:", error);
         res.status(500).json({ error: "Error del servidor" });
+    }
+}));
+app.get("/users/search", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const q = req.query.q;
+    if (!q || q.trim() === "")
+        return res.json([]);
+    try {
+        const users = yield prisma.user.findMany({
+            where: {
+                username: {
+                    contains: q,
+                },
+            },
+            select: {
+                id: true,
+                username: true,
+            },
+            take: 10,
+        });
+        res.json(users);
+    }
+    catch (error) {
+        console.error("Error en búsqueda:", error);
+        res.status(500).json({ error: "Error en el servidor" });
     }
 }));
 // Solo una vez app.listen
