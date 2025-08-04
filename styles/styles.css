@@ -248,7 +248,7 @@ img{
 
 .post-container{
     width: 100%;
-    min-height: 700px;
+    max-height: fit-content;
 }
 
 
@@ -290,6 +290,7 @@ img{
 .post-divider{
     border: 1px solid var(--detalles);
     width: 100%;
+    margin-bottom: 8px;
 }
 
 .text-container {
@@ -358,6 +359,37 @@ img{
 .show-more-btn {
     white-space: nowrap;
 }
+
+.new-post-section {
+  width: 90%;
+  max-width: 500px;
+  margin: 1rem auto;
+  background-color: #121212;
+  padding: 1rem;
+  border-radius: 10px;
+  color: white;
+}
+.new-post-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.new-post-section input {
+  padding: 0.5rem;
+  border: 1px solid #333;
+  background: #1c1c1c;
+  color: white;
+  border-radius: 5px;
+}
+.new-post-section button {
+  padding: 0.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 
 @media screen and (max-width: 800px){

@@ -18,11 +18,12 @@ model User {
   bio       String?
   avatarUrl String?
   createdAt DateTime @default(now())
-  posts     Int      @default(0)
 
   // Relaciones
   followers Follower[] @relation("Followers")
   following Follower[] @relation("Following")
+
+  posts Post[] // Nueva relació
 }
 
 model Follower {
@@ -34,4 +35,13 @@ model Follower {
   following User @relation("Followers", fields: [followingId], references: [id])
 
   @@unique([followerId, followingId])
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  content     String // Puedes cambiar esto a `imageUrl` si deseas subir imágenes
+  createdAt   DateTime @default(now())
+  userId      Int
+  description String   @default("")
+  user        User     @relation(fields: [userId], references: [id])
 }

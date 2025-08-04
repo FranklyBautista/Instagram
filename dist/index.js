@@ -113,6 +113,51 @@ app.get("/users/search", (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(500).json({ error: "Error en el servidor" });
     }
 }));
+// POST /posts
+app.post("/posts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { content, description, userId } = req.body;
+    if (!content || !userId) {
+        return res.status(400).json({ error: "Faltan datos" });
+    }
+    try {
+        const newPost = yield prisma.post.create({
+            data: {
+                content,
+                description,
+                userId,
+            },
+            include: {
+                user: true,
+            },
+        });
+        res.status(201).json(newPost);
+    }
+    catch (error) {
+        console.error("Error al crear post:", error);
+        res.status(500).json({ error: "Error en el servidor" });
+    }
+}));
+// GET /posts/:userId
+app.get("/posts", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const posts = yield prisma.post.findMany({
+            orderBy: { createdAt: "desc" },
+            include: {
+                user: {
+                    select: {
+                        username: true,
+                        avatarUrl: true,
+                    },
+                },
+            },
+        });
+        res.json(posts);
+    }
+    catch (error) {
+        console.error("Error al obtener posts:", error);
+        res.status(500).json({ error: "Error del servidor" });
+    }
+}));
 // Solo una vez app.listen
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
