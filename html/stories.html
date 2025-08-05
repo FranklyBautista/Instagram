@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historias</title>
+    <link rel="stylesheet" href="/styles/stories.css">
+</head>
+
+<body>
+
+    <h2>Subir nueva historia</h2>
+    <form id="story-form">
+        <input type="text" id="story-image-url" placeholder="URL de la imagen" required />
+        <button type="submit">Publicar historia</button>
+    </form>
+
+    <p id="success-message" style="display: none; color: green;">¡Historia publicada con éxito!</p>
+
+
+
+    <h2>Historias actuales</h2>
+    <div class="story-carousel" id="story-carousel">
+        <!-- Aquí se insertan las historias desde stories.js -->
+    </div>
+
+    <script src="/dist/storiesForm.js" defer></script>
+    <script src="/dist/stories.js" defer></script>
+</body>
+
+</html>

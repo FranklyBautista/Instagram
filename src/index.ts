@@ -170,6 +170,65 @@ app.get("/posts", async (_req, res) => {
 });
 
 
+// POST /stories
+app.post("/stories", async (req, res) => {
+  const { imageUrl, userId } = req.body;
+
+  if (!imageUrl || !userId) {
+    return res.status(400).json({ error: "Faltan datos" });
+  }
+
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 horas
+
+  try {
+    const story = await prisma.story.create({
+      data: {
+        imageUrl,
+        userId,
+        expiresAt,
+      },
+    });
+
+    res.status(201).json(story);
+  } catch (error) {
+    console.error("Error al crear historia:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
+// GET /stories
+app.get("/stories", async (_req, res) => {
+  const now = new Date(Date.now());
+
+try {
+  const stories = await prisma.story.findMany({
+    where: {
+      expiresAt: {
+        gt: now,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      user: {
+        select: {
+          username: true,
+          avatarUrl: true,
+        },
+      },
+    },
+    take: 50,
+  });
+
+  res.json(stories);
+} catch (error) {
+  console.error("Error al obtener historias:", error);
+  res.status(500).json({ error: "Error en el servidor" });
+}
+
+});
 
 
 

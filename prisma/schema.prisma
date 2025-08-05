@@ -23,7 +23,8 @@ model User {
   followers Follower[] @relation("Followers")
   following Follower[] @relation("Following")
 
-  posts Post[] // Nueva relació
+  posts   Post[] // Nueva relació
+  stories Story[]
 }
 
 model Follower {
@@ -44,4 +45,13 @@ model Post {
   userId      Int
   description String   @default("")
   user        User     @relation(fields: [userId], references: [id])
+}
+
+model Story {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }
