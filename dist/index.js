@@ -68,21 +68,30 @@ app.get("/profile/:username", (req, res) => __awaiter(void 0, void 0, void 0, fu
         const user = yield prisma.user.findUnique({
             where: { username },
             select: {
-                id: true,
                 username: true,
                 bio: true,
                 avatarUrl: true,
-                posts: true,
+                followers: true,
+                following: true,
+                posts: {
+                    select: {
+                        id: true, // solo para contar
+                    },
+                },
             },
         });
-        if (!user)
+        if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
-        // Contar seguidores y seguidos
-        const [followersCount, followingCount] = yield Promise.all([
-            prisma.follower.count({ where: { followingId: user.id } }),
-            prisma.follower.count({ where: { followerId: user.id } }),
-        ]);
-        res.json(Object.assign(Object.assign({}, user), { followers: followersCount, following: followingCount }));
+        }
+        const profileData = {
+            username: user.username,
+            bio: user.bio,
+            avatarUrl: user.avatarUrl,
+            followers: user.followers.length,
+            following: user.following.length,
+            posts: user.posts.length, // contar posts
+        };
+        res.json(profileData);
     }
     catch (error) {
         console.error("Error al obtener perfil:", error);
@@ -209,6 +218,40 @@ app.get("/stories", (_req, res) => __awaiter(void 0, void 0, void 0, function* (
     catch (error) {
         console.error("Error al obtener historias:", error);
         res.status(500).json({ error: "Error en el servidor" });
+    }
+}));
+app.get("/users/:username/posts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username } = req.params;
+    try {
+        const user = yield prisma.user.findUnique({
+            where: { username },
+        });
+        if (!user)
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        const posts = yield prisma.post.findMany({
+            where: { userId: user.id },
+            orderBy: { createdAt: "desc" },
+        });
+        res.json(posts);
+    }
+    catch (error) {
+        console.error("Error al obtener publicaciones del usuario:", error);
+        res.status(500).json({ error: "Error del servidor" });
+    }
+}));
+app.put("/profile/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { username, bio, avatarUrl } = req.body;
+    try {
+        const updatedUser = yield prisma.user.update({
+            where: { id: parseInt(id) },
+            data: { username, bio, avatarUrl },
+        });
+        res.json(updatedUser);
+    }
+    catch (error) {
+        console.error("Error al editar perfil:", error);
+        res.status(500).json({ error: "No se pudo actualizar el perfil" });
     }
 }));
 // Solo una vez app.listen

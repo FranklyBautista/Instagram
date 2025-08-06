@@ -10,7 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
     const username = localStorage.getItem("username");
-    if (!username) {
+    const userId = localStorage.getItem("userId");
+    if (!username || !userId) {
         alert("Usuario no autenticado");
         window.location.href = "/login.html";
         return;
@@ -25,12 +26,62 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
             document.querySelector(".posts").textContent = `${data.posts} publicaciones`;
             document.querySelector(".followers").textContent = `${data.followers} seguidores`;
             document.querySelector(".following").textContent = `${data.following} seguidos`;
+            // Mostrar formulario al hacer clic en "Editar perfil"
+            const editBtn = document.querySelector(".sup button");
+            editBtn.addEventListener("click", () => {
+                const form = document.getElementById("edit-profile-form");
+                form.style.display = form.style.display === "none" ? "block" : "none";
+                // Precargar valores actuales
+                document.getElementById("edit-username").value = data.username;
+                document.getElementById("edit-avatar").value = data.avatarUrl || "";
+                document.getElementById("edit-bio").value = data.bio || "";
+            });
         }
         else {
             alert("No se pudo cargar el perfil");
         }
+        // Obtener publicaciones personales
+        const postsRes = yield fetch(`http://localhost:3000/users/${username}/posts`);
+        const posts = yield postsRes.json();
+        const postSection = document.querySelector(".user-posts-grid");
+        posts.forEach((post) => {
+            const postHtml = `
+        <div class="post-container">
+          <div class="post-img-container">
+            <img src="${post.content}" alt="Publicación del usuario">
+          </div>
+        </div>
+      `;
+            postSection === null || postSection === void 0 ? void 0 : postSection.insertAdjacentHTML("beforeend", postHtml);
+        });
     }
     catch (error) {
-        console.error("Error cargando perfil:", error);
+        console.error("Error cargando perfil o publicaciones:", error);
     }
+    // Manejo del formulario
+    const editForm = document.getElementById("edit-profile-form");
+    editForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
+        e.preventDefault();
+        const newUsername = document.getElementById("edit-username").value.trim();
+        const newBio = document.getElementById("edit-bio").value.trim();
+        const newAvatar = document.getElementById("edit-avatar").value.trim();
+        try {
+            const res = yield fetch(`http://localhost:3000/profile/${userId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: newUsername, bio: newBio, avatarUrl: newAvatar }),
+            });
+            if (res.ok) {
+                localStorage.setItem("username", newUsername);
+                alert("Perfil actualizado correctamente");
+                location.reload();
+            }
+            else {
+                alert("Error al actualizar perfil");
+            }
+        }
+        catch (error) {
+            console.error("Error en actualización:", error);
+        }
+    }));
 }));

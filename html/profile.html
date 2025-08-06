@@ -16,66 +16,67 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="#">
+                        <a id="nav-home" href="/index.html">
                             <span class="material-symbols-outlined">home</span>
                             <span>inicio</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a id="nav-search" href="/search.html">
                             <span class="material-symbols-outlined">search</span>
                             <span>buscar</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a id="nav-explore" href="/index.html#explore">
                             <span class="material-symbols-outlined">explore</span>
                             <span>Explorar</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a id="nav-reels" href="/reels.html">
                             <span class="material-symbols-outlined">animated_images</span>
                             <span>Reels</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a id="nav-messages" href="/messages.html">
                             <span class="material-symbols-outlined">chat</span>
                             <span>Mensajes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="material-symbols-outlined">Favorite</span>
+                        <a id="nav-notifications" href="/notifications.html">
+                            <span class="material-symbols-outlined">favorite</span>
                             <span>Notificaciones</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <!-- Si tu formulario de post nuevo está en index, lo apunto con ancla -->
+                        <a id="nav-create" href="/index.html#new-post-section">
                             <span class="material-symbols-outlined">add_2</span>
                             <span>Crear</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="material-symbols-outlined">Person</span>
+                        <a id="nav-profile" href="/profile.html">
+                            <span class="material-symbols-outlined">person</span>
                             <span>Perfil</span>
                         </a>
                     </li>
-
                 </ul>
 
                 <ul class="segundoUl">
                     <li>
-                        <a href="#">
-                            <span class="material-symbols-outlined">Menu</span>
-                            <span>Mas</span>
+                        <a id="nav-more" href="/settings.html">
+                            <span class="material-symbols-outlined">menu</span>
+                            <span>Más</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </aside>
+
         <main>
             <div class="main-profile">
                 <img src="../assets/login.png" alt="foto de perfil" class="profile-picture">
@@ -105,11 +106,24 @@
                 </div>
             </div>
 
+            <form id="edit-profile-form" style="display: none; margin-top: 1rem;">
+                <input type="text" id="edit-username" placeholder="Nuevo nombre de usuario" required />
+                <input type="text" id="edit-avatar" placeholder="Nueva URL del avatar" />
+                <textarea id="edit-bio" placeholder="Nueva biografía" rows="3"></textarea>
+                <button type="submit">Guardar cambios</button>
+            </form>
+
+
+            <section class="user-posts">
+                <div class="user-posts-grid"></div>
+            </section>
+
         </main>
 
     </div>
 
     <script src="/dist/profile.js" defer></script>
+    <script src="/dist/nav.js" defer></script>
 </body>
 
 </html>
